@@ -1,0 +1,42 @@
+@font-face {
+    font-family: AppleSDGothicNeo;
+    src: local(AppleSDGothicNeo-Regular),
+        url(/assets/font/AppleSDGothicNeo-Regular.woff2) format('woff2'),
+        url(/assets/font/AppleSDGothicNeo-Regular.woff) format('woff'),
+        url(/assets/font/AppleSDGothicNeo-Regular.ttf) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+}
+@font-face {
+    font-family: AppleSDGothicNeo;
+    src: local(AppleSDGothicNeo-Bold),
+        url(/assets/font/AppleSDGothicNeo-Bold.woff2) format('woff2'),
+        url(/assets/font/AppleSDGothicNeo-Bold.woff) format('woff'),
+        url(/assets/font/AppleSDGothicNeo-Bold.ttf) format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+}
+@font-face {
+    font-family: Helvetica;
+    src: local(Helvetica), url(/assets/font/Helvetica.woff2) format('woff2'),
+        url(/assets/font/Helvetica.woff) format('woff'),
+        url(/assets/font/Helvetica.ttf) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+}
+@font-face {
+    font-family: Helvetica;
+    src: local(Helvetica-Bold),
+        url(/assets/font/Helvetica-Bold.woff2) format('woff2'),
+        url(/assets/font/Helvetica-Bold.woff) format('woff'),
+        url(/assets/font/Helvetica-Bold.ttf) format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+}
+p {
+    color: skyblue;
+}
