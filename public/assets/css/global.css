@@ -1,0 +1,12 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    background-color: var(--white);
+}
+input {
+    border: 0;
+}
+button {
+    background: none;
+}

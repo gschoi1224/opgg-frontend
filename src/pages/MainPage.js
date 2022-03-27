@@ -1,4 +1,10 @@
+import Header from '../components/Header';
+
 const MainPage = () => {
-    return <div>메인</div>;
+    return (
+        <>
+            <Header></Header>
+        </>
+    );
 };
 export default MainPage;
