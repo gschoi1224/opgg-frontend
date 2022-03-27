@@ -7,7 +7,6 @@ const Container = styled.form`
     border-radius: 2px;
     background-color: var(--white-two);
     padding: 9px 12px;
-    position: absolute;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -29,8 +28,6 @@ const StyledButton = styled.button`
     img {
         width: 100%;
     }
-    position: relative;
-    left: 0px;
     cursor: pointer;
 `;
 
