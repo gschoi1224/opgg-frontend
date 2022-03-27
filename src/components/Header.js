@@ -9,6 +9,7 @@ const StyledHeader = styled.header`
     background-color: var(--azure);
     display: flex;
     justify-content: center;
+    min-width: 1000px;
     .header-layout {
         width: 1000px;
         display: flex;
