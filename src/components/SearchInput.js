@@ -36,7 +36,7 @@ const SearchInput = () => {
         <Container>
             <StyledInput type="text" placeholder="소환사명, 챔피언···" />
             <StyledButton>
-                <img src={OpggIcon} />
+                <img src={OpggIcon} alt="검색 아이콘" />
             </StyledButton>
         </Container>
     );

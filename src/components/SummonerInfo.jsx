@@ -206,7 +206,7 @@ const SummonerInfo = ({
             <div className="summonerInfo">
                 <ul className="previousTiers">
                     {previousTiers.map(({ tier, season }) => (
-                        <li>
+                        <li key={`S${season}`}>
                             <b>S{season}</b>&nbsp;<span>{tier}</span>
                         </li>
                     ))}
