@@ -6,6 +6,7 @@ const Container = styled.div`
     border-bottom: 1px solid var(--white-three);
     display: flex;
     justify-content: center;
+    grid-column: span 2;
 
     .summonerInfo {
         width: 1000px;
