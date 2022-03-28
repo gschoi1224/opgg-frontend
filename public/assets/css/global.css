@@ -10,3 +10,6 @@ input {
 button {
     background: none;
 }
+b {
+    font-weight: bold !important;
+}

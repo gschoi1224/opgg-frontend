@@ -1,9 +1,14 @@
 import Header from '../components/Header';
+import Main from '../components/Main';
+import SummonerInfo from '../components/SummonerInfo';
 
 const MainPage = () => {
     return (
         <>
-            <Header></Header>
+            <Header />
+            <Main>
+                <SummonerInfo />
+            </Main>
         </>
     );
 };
