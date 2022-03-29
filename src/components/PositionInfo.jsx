@@ -82,7 +82,7 @@ const StyledKDAInfo = styled.section`
             position: absolute;
         }
     }
-    .rightArea {
+    .statistics {
         padding-left: 35px;
         .kdaArea {
             font-family: Helvetica;
@@ -330,7 +330,7 @@ const PositionInfo = ({
                         />
                         <span className="chartLavel"></span>
                     </div>
-                    <div className="rightArea">
+                    <div className="statistics">
                         <div className="kdaArea">
                             <span>{summary.kills / totalGames}</span>
                             <span className="slash"> / </span>
