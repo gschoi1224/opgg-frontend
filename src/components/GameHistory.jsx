@@ -1,11 +1,5 @@
 import styled from 'styled-components';
-import classNames from 'classnames';
-import { useMemo } from 'react';
-import positionName from '../utils/positionName';
-import positionImage from '../utils/positionImage';
-import getKDA from '../utils/getKDA';
 import useNavBox from '../hooks/useNavBox';
-import Partition from './common/Partition';
 import KDAGraph from './Position/KDAGraph';
 import MostChampionBox from './Position/MostChampionBox';
 import PreferPositionBox from './Position/PreferPositionBox';
@@ -18,7 +12,7 @@ const Container = styled.div`
 
 const rankTypes = ['전체', '솔로게임', '자유랭크'];
 
-const PositionInfo = ({
+const GameHistory = ({
     champions = [
         {
             id: 236,
@@ -77,8 +71,11 @@ const PositionInfo = ({
             <NavBox navigationTypes={rankTypes} />
             {summary && <KDAGraph {...summary} />}
             <MostChampionBox champions={champions} />
-            <PreferPositionBox positions={positions} totalGames={summary.wins + summary.losses} />
+            <PreferPositionBox
+                positions={positions}
+                totalGames={summary.wins + summary.losses}
+            />
         </Container>
     );
 };
-export default PositionInfo;
+export default GameHistory;
