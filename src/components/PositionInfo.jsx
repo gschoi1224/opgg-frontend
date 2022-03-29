@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { useMemo } from 'react';
 import positionName from '../utils/positionName';
 import positionImage from '../utils/positionImage';
+import getKDA from '../utils/getKDA';
 
 const Container = styled.div`
     column-width: 690px;
@@ -297,9 +298,7 @@ const PositionInfo = ({
     );
     const totalGames = summary.wins + summary.losses;
     const winRatio = Math.round((summary.wins / totalGames) * 100);
-    const kda =
-        Math.round(((summary.kills + summary.assists) / summary.deaths) * 100) /
-        100;
+    const kda = getKDA(summary.kills, summary.deaths, summary.assists);
     return (
         <Container>
             <StyledNav className="whiteBox">
@@ -377,9 +376,7 @@ const PositionInfo = ({
                             assists,
                             wins,
                             losses,
-                            evaluation = ((kills + assists) / deaths).toFixed(
-                                2,
-                            ),
+                            evaluation = getKDA(kills, deaths, assists),
                             winRate = Math.round((wins / games) * 100),
                         }) => (
                             <li key={key}>
