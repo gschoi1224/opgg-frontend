@@ -13,3 +13,28 @@ button {
 b {
     font-weight: bold !important;
 }
+.whiteBox {
+    border-radius: 2px;
+    border: solid 1px var(--silver-three);
+    background-color: var(--white-four);
+}
+.grayBox {
+    border-radius: 2px;
+    border: solid 1px var(--silver-three);
+    background-color: var(--white-five);
+}
+.kdaLow {
+    color: #2daf7f !important;
+}
+.kdaCommon {
+    color: #1f8ecd !important;
+}
+.kdaHigh {
+    color: #e19205 !important;
+}
+.winRatioGod {
+    color: #c6443e !important;
+}
+.evaluatedGod {
+    color: #e19205 !important;
+}
