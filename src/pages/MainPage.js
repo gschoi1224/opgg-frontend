@@ -4,6 +4,7 @@ import PositionInfo from '../components/PositionInfo';
 import RankInfo from '../components/RankInfo';
 import SummonerInfo from '../components/SummonerInfo';
 import GridContainer from '../components/GridContainer';
+import ChampionInfo from '../components/ChampionInfo';
 
 const MainPage = () => {
     return (
@@ -15,7 +16,7 @@ const MainPage = () => {
                     leftChild={
                         <>
                             <RankInfo />
-                            <div>두개</div>
+                            <ChampionInfo />
                         </>
                     }
                     rightChild={<PositionInfo />}
