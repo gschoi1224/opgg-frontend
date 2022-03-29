@@ -6,11 +6,23 @@ const Container = styled.div`
     grid-template-columns: 300px 690px;
     grid-column-gap: 10px;
     grid-row-gap: 8px;
+    column-count: 2;
     margin: 10px auto;
+    .leftArea {
+        column-width: 300px;
+    }
+    .rightArea {
+        column-width: 690px;
+    }
 `;
 
-const GridContainer = ({ children }) => {
-    return <Container>{children}</Container>;
+const GridContainer = ({ leftChild, rightChild }) => {
+    return (
+        <Container>
+            <div className="leftArea">{leftChild}</div>
+            <div className="rightArea">{rightChild}</div>
+        </Container>
+    );
 };
 
 export default GridContainer;

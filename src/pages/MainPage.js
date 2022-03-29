@@ -11,10 +11,15 @@ const MainPage = () => {
             <Header />
             <Main>
                 <SummonerInfo />
-                <GridContainer>
-                    <RankInfo />
-                    <PositionInfo />
-                </GridContainer>
+                <GridContainer
+                    leftChild={
+                        <>
+                            <RankInfo />
+                            <div>두개</div>
+                        </>
+                    }
+                    rightChild={<PositionInfo />}
+                ></GridContainer>
             </Main>
         </>
     );
