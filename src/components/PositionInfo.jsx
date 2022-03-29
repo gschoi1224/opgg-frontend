@@ -6,44 +6,13 @@ import { useMemo } from 'react';
 import positionName from '../utils/positionName';
 import positionImage from '../utils/positionImage';
 import getKDA from '../utils/getKDA';
+import useNavBox from '../hooks/useNavBox';
+import Partition from './common/Partition';
 
 const Container = styled.div`
-    column-width: 690px;
+    width: 690px;
     display: flex;
     flex-wrap: wrap;
-    span.partition {
-        width: 1px;
-        height: 11px;
-        background-color: var(--silver-three);
-        display: inline-block;
-        margin: 0px 6px;
-    }
-`;
-const StyledNav = styled.ul`
-    width: 100%;
-    display: flex;
-    padding: 0px 16px;
-    border-radius: 2px 2px 0 0;
-    li {
-        height: 36px;
-        justify-content: center;
-        align-items: center;
-        display: flex;
-        font-family: NanumBarunGothicOTF;
-        font-size: 12px;
-        color: var(--greyish-brown);
-        cursor: pointer;
-        position: relative;
-        top: 1px;
-    }
-    li.active {
-        font-weight: bold;
-        color: var(--bluish);
-        border-bottom: 2px solid var(--bluish);
-    }
-    li + li {
-        margin-left: 24px;
-    }
 `;
 
 const StyledKDAInfo = styled.section`
@@ -237,6 +206,8 @@ const StyledPositionInfo = styled.section`
     }
 `;
 
+const rankTypes = ['전체', '솔로게임', '자유랭크'];
+
 const PositionInfo = ({
     champions = [
         {
@@ -290,8 +261,6 @@ const PositionInfo = ({
         assists: 22,
     },
 }) => {
-    const [rankType, setRankType] = useState(0);
-    const rankTypes = ['전체', '솔로게임', '자유랭크'];
     const blankChampions = useMemo(
         () => Array.from({ length: 3 - champions.length }),
         [champions],
@@ -299,19 +268,10 @@ const PositionInfo = ({
     const totalGames = summary.wins + summary.losses;
     const winRatio = Math.round((summary.wins / totalGames) * 100);
     const kda = getKDA(summary.kills, summary.deaths, summary.assists);
+    const { type, NavBox } = useNavBox(0);
     return (
         <Container>
-            <StyledNav className="whiteBox">
-                {rankTypes.map((type, i) => (
-                    <li
-                        className={rankType === i ? 'active' : ''}
-                        onClick={() => setRankType(i)}
-                        key={'nav' + type}
-                    >
-                        {type}
-                    </li>
-                ))}
-            </StyledNav>
+            <NavBox navigationTypes={rankTypes} />
             {totalGames > 0 && (
                 <StyledKDAInfo
                     className="grayBox"
@@ -399,7 +359,7 @@ const PositionInfo = ({
                                             <span>승</span> {losses}
                                             <span>패</span>)
                                         </span>
-                                        <span className="partition"></span>
+                                        <Partition />
                                         <span
                                             className={classNames('score', {
                                                 evaluatedGod: evaluation >= 6,
@@ -449,7 +409,7 @@ const PositionInfo = ({
                                     </b>
                                     %
                                 </span>
-                                <span className="partition"></span>
+                                <Partition />
                                 <span className="winRatio">
                                     승률{' '}
                                     <span className="rate">

@@ -11,6 +11,7 @@ const StyledNav = styled.ul`
     display: flex;
     padding: 0px 16px;
     border-radius: 2px 2px 0 0;
+
     li {
         justify-content: center;
         align-items: center;
@@ -31,25 +32,63 @@ const StyledNav = styled.ul`
         margin-left: 24px;
     }
 `;
+const StyledNav2 = styled.ul`
+    width: 100%;
+    border: 0;
+    display: flex;
+    justify-content: space-around;
+    li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        border-top: 0;
+        border-left: 0;
+        border-right: 0;
+        font-family: AppleSDGothicNeo;
+        font-size: 12px;
+        color: var(--brownish-grey);
+        cursor: pointer;
+    }
+    li.active {
+        font-weight: bold;
+        border-bottom: 0;
+    }
+    li + li {
+        border-left: 1px solid var(--silver-three);
+    }
+`;
 
-const NavBoxComponent = ({
-    navigations = ['전체', '솔로게임', '자유랭크'],
-    setType,
-    type,
-}) => {
+const NavBoxComponent = ({ navigationTypes, setType, type, navType = 0 }) => {
     return (
         <Container>
-            <StyledNav className="whiteBox">
-                {navigations.map((nav, i) => (
-                    <li
-                        className={type === i ? 'active' : ''}
-                        onClick={() => setType(i)}
-                        key={'nav' + nav}
-                    >
-                        {nav}
-                    </li>
-                ))}
-            </StyledNav>
+            {navType === 0 ? (
+                <StyledNav className="whiteBox">
+                    {navigationTypes.map((nav, i) => (
+                        <li
+                            className={type === i ? 'active' : ''}
+                            onClick={() => setType(i)}
+                            key={'nav' + nav}
+                        >
+                            {nav}
+                        </li>
+                    ))}
+                </StyledNav>
+            ) : (
+                <StyledNav2>
+                    {navigationTypes.map((nav, i) => (
+                        <li
+                            className={
+                                type === i ? 'active grayBox' : 'whiteBox'
+                            }
+                            onClick={() => setType(i)}
+                            key={'nav' + nav}
+                        >
+                            {nav}
+                        </li>
+                    ))}
+                </StyledNav2>
+            )}
         </Container>
     );
 };
