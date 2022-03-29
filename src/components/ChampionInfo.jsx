@@ -1,40 +1,13 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import useNavBox from '../hooks/useNavBox';
 import ChampionBox from './Champion/ChampionBox';
+import NoData from './common/NoData';
 
 const Container = styled.div`
     width: 300px;
     margin-top: 8px;
     border-bottom: 0;
-`;
-
-const StyledEmptyBox = styled.div`
-    height: 200px;
-    border-bottom: 1px solid var(--silver-three);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    .exclamation {
-        width: 70px;
-        height: 70px;
-        border: 1px solid #555e5e;
-        color: #555e5e;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
-        font-size: 30px;
-        font-weight: bold;
-        margin-bottom: 15px;
-    }
-    .noData {
-        font-family: Helvetica;
-        text-align: center;
-        font-size: 16px;
-        color: #555e5e;
-    }
 `;
 
 const navigationTypes = ['챔피언 승률', '7일간 랭크 승률'];
@@ -184,12 +157,13 @@ const ChampionInfo = ({
             <NavBox navigationTypes={navigationTypes} />
             <div className="championBox">
                 {champions?.length > 0 ? (
-                    champions.map((cham) => <ChampionBox {...cham} />)
+                    champions.map(({ key, ...cham }) => (
+                        <Fragment key={cham.rank + '_' + key}>
+                            <ChampionBox {...cham} />
+                        </Fragment>
+                    ))
                 ) : (
-                    <StyledEmptyBox>
-                        <div className="exclamation">!</div>
-                        <div className="noData">기록된 전적이 없습니다.</div>
-                    </StyledEmptyBox>
+                    <NoData height={200} />
                 )}
             </div>
         </Container>

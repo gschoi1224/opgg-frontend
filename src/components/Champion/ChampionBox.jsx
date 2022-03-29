@@ -56,7 +56,6 @@ const Container = styled.div`
 `;
 
 const ChampionBox = ({
-    key,
     name,
     imageUrl,
     games,

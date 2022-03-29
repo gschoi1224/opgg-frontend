@@ -47,7 +47,6 @@ const Container = styled.li`
 `;
 
 const MostChampion = ({
-    key,
     name,
     imageUrl,
     games,
