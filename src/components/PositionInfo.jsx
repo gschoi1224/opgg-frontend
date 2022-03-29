@@ -307,7 +307,9 @@ const PositionInfo = ({
                                         ? 'kdaHigh'
                                         : kda >= 4
                                         ? 'kdaCommon'
-                                        : 'kdaLow',
+                                        : kda >= 3
+                                        ? 'kdaLow'
+                                        : '',
                                 )}
                             >
                                 <b>{kda}</b>
