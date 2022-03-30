@@ -1,4 +1,7 @@
+import { useState } from 'react';
+import OutsideClickHandler from 'react-outside-click-handler';
 import styled from 'styled-components';
+import SearchHistory from './common/SearchHistory';
 import SearchInput from './SearchInput';
 
 const StyledHeader = styled.header`
@@ -14,14 +17,26 @@ const StyledHeader = styled.header`
         width: 1000px;
         display: flex;
         justify-content: flex-end;
+        position: relative;
     }
 `;
 
 const Header = () => {
+    const [historyShow, setHistoryShow] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
     return (
         <StyledHeader>
             <div className="header-layout">
-                <SearchInput />
+                <SearchInput
+                    setHistoryShow={setHistoryShow}
+                    setIsFocused={setIsFocused}
+                />
+                {historyShow && (
+                    <SearchHistory
+                        setHistoryShow={setHistoryShow}
+                        isFocused={isFocused}
+                    />
+                )}
             </div>
         </StyledHeader>
     );

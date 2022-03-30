@@ -58,11 +58,33 @@ const StyledNav2 = styled.ul`
         border-left: 1px solid var(--silver-three);
     }
 `;
+const StyledNav3 = styled.ul`
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 40px;
+        font-size: 14px;
+        color: rgb(156, 156, 156);
+        background-color: rgb(227, 227, 227);
+        cursor: pointer;
+    }
+    li.active {
+        font-weight: bold;
+        font-size: 14px;
+        color: rgb(74, 74, 74);
+        background-color: rgb(255, 255, 255);
+    }
+`;
 
 const NavBoxComponent = ({ navigationTypes, setType, type, navType = 0 }) => {
     return (
         <Container>
-            {navType === 0 ? (
+            {navType === 0 && (
                 <StyledNav className="whiteBox">
                     {navigationTypes.map((nav, i) => (
                         <li
@@ -74,7 +96,8 @@ const NavBoxComponent = ({ navigationTypes, setType, type, navType = 0 }) => {
                         </li>
                     ))}
                 </StyledNav>
-            ) : (
+            )}
+            {navType === 1 && (
                 <StyledNav2>
                     {navigationTypes.map((nav, i) => (
                         <li
@@ -88,6 +111,19 @@ const NavBoxComponent = ({ navigationTypes, setType, type, navType = 0 }) => {
                         </li>
                     ))}
                 </StyledNav2>
+            )}
+            {navType === 2 && (
+                <StyledNav3>
+                    {navigationTypes.map((nav, i) => (
+                        <li
+                            className={type === i ? 'active' : ''}
+                            onClick={() => setType(i)}
+                            key={'nav' + nav}
+                        >
+                            {nav}
+                        </li>
+                    ))}
+                </StyledNav3>
             )}
         </Container>
     );
