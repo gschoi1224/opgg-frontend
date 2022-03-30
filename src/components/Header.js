@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import OutsideClickHandler from 'react-outside-click-handler';
 import styled from 'styled-components';
 import SearchHistory from './common/SearchHistory';
 import SearchInput from './SearchInput';
