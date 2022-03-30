@@ -5,6 +5,7 @@ import SummonerInfo from '../components/SummonerInfo';
 import GridContainer from '../components/GridContainer';
 import ChampionInfo from '../components/ChampionInfo';
 import GameHistory from '../components/GameHistory';
+import WinRatioGraph from '../components/WinRatioGraph';
 
 const MainPage = () => {
     return (
@@ -17,6 +18,7 @@ const MainPage = () => {
                         <>
                             <RankInfo />
                             <ChampionInfo />
+                            <WinRatioGraph />
                         </>
                     }
                     rightChild={<GameHistory />}
