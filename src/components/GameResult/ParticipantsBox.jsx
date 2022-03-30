@@ -19,6 +19,7 @@ const StyledTeam = styled.ul`
         align-items: center;
         text-overflow: ellipsis;
         height: 16px;
+        cursor: pointer;
 
         .face {
             width: 16px;
@@ -41,7 +42,12 @@ const ParticipantsBox = ({ teams }) => {
             {teams.map((team) => (
                 <StyledTeam key={'team' + team.teamId}>
                     {team.players.map((player) => (
-                        <li key={'team' + team.teamId + player.summonerId}>
+                        <li
+                            key={'team' + team.teamId + player.summonerId}
+                            onClick={() => {
+                                window.location.href = `/summoners/${player.summonerName}`;
+                            }}
+                        >
                             <img
                                 className="face"
                                 src={player.champion.imageUrl}

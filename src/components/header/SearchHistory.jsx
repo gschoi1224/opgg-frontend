@@ -47,6 +47,7 @@ const History = styled.ul`
         overflow: hidden;
         display: flex;
         justify-content: space-between;
+        cursor: pointer;
         .actions {
             button {
                 cursor: pointer;
@@ -62,6 +63,9 @@ const History = styled.ul`
                 font-family: Helvetica;
                 color: var(--slate-grey);
             }
+        }
+        button {
+            z-index: 999;
         }
     }
 `;
@@ -140,7 +144,12 @@ const SearchHistory = ({ setHistoryShow, isFocused }) => {
                 {list?.length ? (
                     <History>
                         {list.map((item) => (
-                            <li key={item}>
+                            <li
+                                key={item}
+                                onClick={() => {
+                                    window.location.href = `/summoners/${item}`;
+                                }}
+                            >
                                 <span className="id">{item}</span>
                                 <div className="actions">
                                     {type === 0 &&
@@ -148,9 +157,10 @@ const SearchHistory = ({ setHistoryShow, isFocused }) => {
                                             <button
                                                 type="button"
                                                 className="favorite active"
-                                                onClick={() =>
-                                                    deleteFavoriteItem(item)
-                                                }
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    deleteFavoriteItem(item);
+                                                }}
                                             >
                                                 ★
                                             </button>
@@ -158,16 +168,20 @@ const SearchHistory = ({ setHistoryShow, isFocused }) => {
                                             <button
                                                 type="button"
                                                 className="favorite"
-                                                onClick={() =>
-                                                    addFavoriteItem(item)
-                                                }
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    addFavoriteItem(item);
+                                                }}
                                             >
                                                 ☆
                                             </button>
                                         ))}
                                     <button
                                         className="x"
-                                        onClick={() => deleteItem(item)}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            deleteItem(item);
+                                        }}
                                         type="button"
                                     >
                                         x
