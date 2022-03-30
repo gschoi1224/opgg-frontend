@@ -46,6 +46,15 @@ const SummonersPage = () => {
         executeGetSummonerAPI();
         executeGetMostInfoAPI();
         executeGetMatchesAPI();
+        const searchedList = localStorage.getItem('searchedList');
+        let newSearchedList = [];
+        if (!searchedList) {
+            newSearchedList.push(params.id);
+        } else {
+            newSearchedList = new Set([params.id, ...JSON.parse(searchedList)]);
+            newSearchedList = [...newSearchedList];
+        }
+        localStorage.setItem('searchedList', JSON.stringify(newSearchedList));
         // eslint-disable-next-line
     }, []);
     const executeGetSummonerAPI = useCallback(async () => {
