@@ -99,14 +99,12 @@ const KDABox = ({
             </div>
             <div className="multiKill">
                 {largestMultiKillString && (
-                    <dlv className="killBadge">
+                    <i className="killBadge">
                         {getKillString(largestMultiKillString.split(' ')[0])}
-                    </dlv>
+                    </i>
                 )}
                 {opScordBadge && (
-                    <dlv className="opScoreBadge">
-                        {opScordBadge.toUpperCase()}
-                    </dlv>
+                    <i className="opScoreBadge">{opScordBadge.toUpperCase()}</i>
                 )}
             </div>
         </Container>
