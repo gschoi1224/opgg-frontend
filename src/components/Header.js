@@ -1,7 +1,5 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import SearchHistory from './common/SearchHistory';
-import SearchInput from './SearchInput';
+import SearchInput from './header/SearchInput';
 
 const StyledHeader = styled.header`
     width: 100%;
@@ -21,21 +19,10 @@ const StyledHeader = styled.header`
 `;
 
 const Header = () => {
-    const [historyShow, setHistoryShow] = useState(false);
-    const [isFocused, setIsFocused] = useState(false);
     return (
         <StyledHeader>
             <div className="header-layout">
-                <SearchInput
-                    setHistoryShow={setHistoryShow}
-                    setIsFocused={setIsFocused}
-                />
-                {historyShow && (
-                    <SearchHistory
-                        setHistoryShow={setHistoryShow}
-                        isFocused={isFocused}
-                    />
-                )}
+                <SearchInput />
             </div>
         </StyledHeader>
     );

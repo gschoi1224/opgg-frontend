@@ -11,6 +11,7 @@ const Container = styled.div`
     background-color: rgb(255, 255, 255);
     box-shadow: rgb(0 0 0 / 50%) 0px 2px 4px 0px;
     overflow: hidden;
+    left: 0;
 `;
 
 const Empty = styled.div`
@@ -39,6 +40,7 @@ const History = styled.ul`
     line-height: 15px;
     padding: 8px 0;
     li {
+        align-items: center;
         padding: 8px 16px;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -144,6 +146,7 @@ const SearchHistory = ({ setHistoryShow, isFocused }) => {
                                     {type === 0 &&
                                         (favoriteList?.indexOf(item) > -1 ? (
                                             <button
+                                                type="button"
                                                 className="favorite active"
                                                 onClick={() =>
                                                     deleteFavoriteItem(item)
@@ -153,6 +156,7 @@ const SearchHistory = ({ setHistoryShow, isFocused }) => {
                                             </button>
                                         ) : (
                                             <button
+                                                type="button"
                                                 className="favorite"
                                                 onClick={() =>
                                                     addFavoriteItem(item)
@@ -164,6 +168,7 @@ const SearchHistory = ({ setHistoryShow, isFocused }) => {
                                     <button
                                         className="x"
                                         onClick={() => deleteItem(item)}
+                                        type="button"
                                     >
                                         x
                                     </button>

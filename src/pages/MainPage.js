@@ -1,30 +1,20 @@
-import Header from '../components/Header';
-import Main from '../components/Main';
-import RankInfo from '../components/RankInfo';
-import SummonerInfo from '../components/SummonerInfo';
-import GridContainer from '../components/GridContainer';
-import ChampionInfo from '../components/ChampionInfo';
-import GameHistory from '../components/GameHistory';
-import WinRatioGraph from '../components/WinRatioGraph';
+import styled from 'styled-components';
+import SearchInput from '../components/header/SearchInput';
+
+const Container = styled.div`
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--azure);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
 
 const MainPage = () => {
     return (
-        <>
-            <Header />
-            <Main>
-                <SummonerInfo />
-                <GridContainer
-                    leftChild={
-                        <>
-                            <RankInfo />
-                            <ChampionInfo />
-                            <WinRatioGraph />
-                        </>
-                    }
-                    rightChild={<GameHistory />}
-                ></GridContainer>
-            </Main>
-        </>
+        <Container>
+            <SearchInput />
+        </Container>
     );
 };
 export default MainPage;

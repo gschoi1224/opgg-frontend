@@ -1,7 +1,9 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useRef } from 'react';
 import styled from 'styled-components';
-import OpggIcon from '../assets/svg/icon-gg.svg';
+import OpggIcon from '../../assets/svg/icon-gg.svg';
+import FitSummoner from './FitSummoner';
+import SearchHistory from './SearchHistory';
 
 const Container = styled.form`
     width: 260px;
@@ -13,6 +15,7 @@ const Container = styled.form`
     align-items: center;
     justify-content: space-between;
     float: right;
+    position: relative;
 `;
 
 const StyledInput = styled.input`
@@ -33,12 +36,19 @@ const StyledButton = styled.button`
     cursor: pointer;
 `;
 
-const SearchInput = ({ setHistoryShow, setIsFocused }) => {
+const SearchInput = () => {
     const input = useRef(null);
+    const [historyShow, setHistoryShow] = useState(false);
+    const [resultShow, setResultShow] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
     const onFocusHandler = useCallback((e) => {
+        setIsFocused(true);
         if (!e.target.value) {
-            setIsFocused(true);
             setHistoryShow(true);
+            setResultShow(false);
+        } else {
+            setHistoryShow(false);
+            setResultShow(true);
         }
         // eslint-disable-next-line
     }, []);
@@ -50,7 +60,7 @@ const SearchInput = ({ setHistoryShow, setIsFocused }) => {
     return (
         <Container>
             <StyledInput
-                onInput={(e) => console.log(e.target.value)}
+                onChange={onFocusHandler}
                 ref={input.current}
                 onFocus={onFocusHandler}
                 onBlur={onBlurHandler}
@@ -60,6 +70,18 @@ const SearchInput = ({ setHistoryShow, setIsFocused }) => {
             <StyledButton>
                 <img src={OpggIcon} alt="검색 아이콘" />
             </StyledButton>
+            {historyShow && (
+                <SearchHistory
+                    setHistoryShow={setHistoryShow}
+                    isFocused={isFocused}
+                />
+            )}
+            {resultShow && (
+                <FitSummoner
+                    setResultShow={setResultShow}
+                    isFocused={isFocused}
+                />
+            )}
         </Container>
     );
 };
