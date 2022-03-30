@@ -1,7 +1,8 @@
 import { useCallback, useState } from 'react';
-import { useRef } from 'react';
 import styled from 'styled-components';
 import OpggIcon from '../../assets/svg/icon-gg.svg';
+import getSummoner from '../../lib/api/getSummoner';
+import executeAPI from '../../utils/executeAPI';
 import FitSummoner from './FitSummoner';
 import SearchHistory from './SearchHistory';
 
@@ -37,10 +38,11 @@ const StyledButton = styled.button`
 `;
 
 const SearchInput = () => {
-    const input = useRef(null);
     const [historyShow, setHistoryShow] = useState(false);
     const [resultShow, setResultShow] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
+    const [input, setInput] = useState('');
+    const [summoner, setSummoner] = useState(null);
     const onFocusHandler = useCallback((e) => {
         setIsFocused(true);
         if (!e.target.value) {
@@ -56,16 +58,43 @@ const SearchInput = () => {
         setIsFocused(false);
         // eslint-disable-next-line
     }, []);
+    const onChangeHandler = useCallback((e) => {
+        onFocusHandler(e);
+        setInput(e.target.value);
+        if (e.target.value) {
+            executeAPI(
+                () => getSummoner(e.target.value),
+                (e) => {
+                    console.error(e);
+                },
+                null,
+                (res) => {
+                    if (res) {
+                        setSummoner(res.summoner);
+                    }
+                },
+            );
+        }
+        // eslint-disable-next-line
+    }, []);
+
+    const onSubmitHandler = useCallback(
+        (e) => {
+            e.preventDefault();
+            window.location.href = `/summoners/${input}`;
+        },
+        [input],
+    );
 
     return (
-        <Container>
+        <Container onSubmit={onSubmitHandler}>
             <StyledInput
-                onChange={onFocusHandler}
-                ref={input.current}
+                onChange={onChangeHandler}
                 onFocus={onFocusHandler}
                 onBlur={onBlurHandler}
                 type="text"
                 placeholder="소환사명, 챔피언···"
+                value={input}
             />
             <StyledButton>
                 <img src={OpggIcon} alt="검색 아이콘" />
@@ -76,9 +105,10 @@ const SearchInput = () => {
                     isFocused={isFocused}
                 />
             )}
-            {resultShow && (
+            {resultShow && summoner && (
                 <FitSummoner
                     setResultShow={setResultShow}
+                    summoner={summoner}
                     isFocused={isFocused}
                 />
             )}
