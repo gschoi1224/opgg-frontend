@@ -20,11 +20,53 @@ const Container = styled.div`
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
 
             img {
                 border-radius: 2px;
                 width: 100%;
                 height: 100%;
+            }
+            &:hover {
+                .tooltip {
+                    display: block;
+                    padding: 10px;
+                    width: 300px;
+
+                    position: absolute;
+                    background: var(--black-two);
+                    color: var(--white);
+                    align-items: flex-start;
+                    bottom: 30px;
+                    text-align: left;
+                    .name {
+                        color: var(--bluey-green);
+                        margin-bottom: 5px;
+                    }
+                    stats {
+                        text-align: left;
+                        line-height: 1.1;
+                    }
+                }
+                .tooltip::after {
+                    background: var(--black-two);
+                    content: '';
+                    background: transparent;
+                    position: absolute;
+                    bottom: -10px;
+                    display: flex;
+                    left: calc(50% - 10px);
+                    border-right: 10px solid transparent;
+                    border-left: 10px solid transparent;
+                    border-top: 10px solid var(--black-two);
+                }
+                .tooltip.mini {
+                    width: 50px;
+                    text-align: center;
+                }
+            }
+            .tooltip {
+                display: none;
             }
         }
         .empty {
@@ -55,17 +97,35 @@ const ItemsBox = ({ items, isWin, visionWardsBought }) => {
         () => Array(7 - items.length).fill(false),
         [items],
     );
+    const itemInfo = useMemo(
+        () => JSON.parse(localStorage.getItem('itemInfo')),
+        [],
+    );
     return (
         <Container isWin={isWin}>
             <ul>
-                {items.map((item, i) => (
-                    <li className="item" key={'item' + i}>
-                        <img
-                            src={item.imageUrl}
-                            alt={item.imageUrl.split('/').slice(-1)}
-                        />
-                    </li>
-                ))}
+                {items.map((item, i) => {
+                    const id = item.imageUrl
+                        .split('/')
+                        .slice(-1)[0]
+                        .split('.')[0];
+                    const info = itemInfo.data[id];
+                    return (
+                        <li className="item" key={'item' + i}>
+                            <img src={item.imageUrl} alt={id} />
+                            <div
+                                className="tooltip"
+                                dangerouslySetInnerHTML={{
+                                    __html:
+                                        '<div class="name">' +
+                                        info.name +
+                                        '</div>' +
+                                        info.description,
+                                }}
+                            ></div>
+                        </li>
+                    );
+                })}
                 {emptyItems.map((_, i) => (
                     <li className="empty" key={'emptyItem' + i}></li>
                 ))}
@@ -76,6 +136,7 @@ const ItemsBox = ({ items, isWin, visionWardsBought }) => {
                         }-p.png`}
                         alt={'buildImg'}
                     />
+                    <div className="tooltip mini">빌드</div>
                 </li>
             </ul>
             <div>
