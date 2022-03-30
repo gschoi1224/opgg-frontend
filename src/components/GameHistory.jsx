@@ -18,12 +18,9 @@ const Container = styled.div`
 
 const rankTypes = ['전체', '솔로게임', '자유랭크'];
 
-const GameHistory = ({ champions, positions, summary, games }) => {
-    useEffect(() => {
-        positions.sort((a, b) => b.games - a.games);
-    }, [positions]);
-
+const GameHistory = ({ games }) => {
     const [detailLoading, setDetailLoading] = useState(false);
+    const [calculating, setCalculating] = useState(true);
 
     useEffect(() => {
         executeMatchDetailAPI();
@@ -41,14 +38,15 @@ const GameHistory = ({ champions, positions, summary, games }) => {
         setViewDetails(detail);
         setDetailLoading(false);
     }, [games]);
-    const [viewChampions, setViewChampions] = useState(champions);
-    const [viewPositions, setViewPositions] = useState(positions);
-    const [viewSummary, setViewSummary] = useState(summary);
+    const [viewChampions, setViewChampions] = useState(null);
+    const [viewPositions, setViewPositions] = useState(null);
+    const [viewSummary, setViewSummary] = useState(null);
     const [viewGames, setViewGames] = useState(games);
     const [details, setDetails] = useState(null);
     const [viewDetails, setViewDetails] = useState(details);
     const { type, NavBox } = useNavBox(0);
     useEffect(() => {
+        setCalculating(true);
         if (details?.length > 0) {
             const index = [];
             const newGames = [];
@@ -183,12 +181,13 @@ const GameHistory = ({ champions, positions, summary, games }) => {
             setViewPositions(
                 newPositions.filter((p, i) => i < 2 && p.games > 0),
             );
+            setCalculating(false);
         }
-    }, [type, positions, champions, summary, games, details]);
+    }, [type, games, details]);
     return (
         <Container>
             <NavBox navigationTypes={rankTypes} />
-            {viewSummary?.games > 0 ? (
+            {!calculating && viewSummary?.games > 0 ? (
                 <>
                     {viewSummary && <KDAGraph {...viewSummary} />}
                     <MostChampionBox champions={viewChampions} />
@@ -198,9 +197,10 @@ const GameHistory = ({ champions, positions, summary, games }) => {
                     />
                 </>
             ) : (
-                <NoData height={300} className="whiteBox" />
+                !calculating && <NoData height={300} className="whiteBox" />
             )}
-            {viewGames?.length > 0 &&
+            {!calculating &&
+                viewGames?.length > 0 &&
                 viewDetails?.length > 0 &&
                 !detailLoading && (
                     <GameResultList games={viewGames} details={viewDetails} />
