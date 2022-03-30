@@ -10,16 +10,16 @@ const Container = styled.div`
     column-count: 4;
     height: 53px;
     align-items: center;
-    justify-content: center;
-    grid-template-columns: 45px 60px 20px 123px;
+    justify-content: space-evenly;
+    grid-template-columns: 32px 60px 30px 123px;
     grid-column-gap: 10px;
     border-top: 0;
     border-left: 0;
     border-right: 0;
     border-radius: 0;
     .face {
-        width: 45px;
-        height: 45px;
+        width: 32px;
+        height: 32px;
         img {
             width: 100%;
             height: 100%;
@@ -31,6 +31,7 @@ const Container = styled.div`
         display: flex;
         flex-direction: column;
         justify-content: space-around;
+        margin: 0px auto;
     }
     .nameBox {
         align-items: flex-start;
@@ -66,11 +67,13 @@ const Container = styled.div`
             font-family: Helvetica;
         }
         .winRange {
-            border-radius: 4px 0 0 4px;
+            border-radius: ${({ winRatio }) =>
+                winRatio === 100 ? '4px' : '4px 0 0 4px'};
             background-color: var(--bluish);
             position: absolute;
             height: 100%;
             width: ${({ winRatio }) => winRatio}%;
+
             left: 0;
             z-index: 1;
         }

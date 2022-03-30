@@ -9,12 +9,17 @@ const Container = styled.ul`
     margin-top: 16px;
 `;
 
-const GameResultList = ({ games }) => {
+const GameResultList = ({ games, details }) => {
     return (
         <Container>
-            {games.map((game) => (
-                <GameResultBox {...game} key={game.gameId} />
-            ))}
+            {games?.length > 0 &&
+                games.map((game, i) => (
+                    <GameResultBox
+                        {...game}
+                        key={game.gameId}
+                        detail={details[i]}
+                    />
+                ))}
         </Container>
     );
 };

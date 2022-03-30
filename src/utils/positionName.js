@@ -8,8 +8,8 @@ const positionName = (name) => {
             return '미드';
         case 'SUP':
             return '서포터';
-        case 'BOT':
-            return '바텀';
+        case 'ADC':
+            return '원딜';
         default:
             return '';
     }

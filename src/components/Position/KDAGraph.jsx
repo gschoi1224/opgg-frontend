@@ -1,11 +1,10 @@
 import classNames from 'classnames';
-import { useMemo } from 'react';
-import styledComponents from 'styled-components';
+import styled from 'styled-components';
 import getKDA from '../../utils/getKDA';
 import mathRound from '../../utils/mathRound';
 import MyPieChart from '../common/PieChart';
 
-const StyledKDAInfo = styledComponents.section`
+const StyledKDAInfo = styled.section`
     width: 276px;
     height: 158px;
     border-top: 0;
@@ -65,17 +64,27 @@ const StyledKDAInfo = styledComponents.section`
             text-align: center;
             color: var(--brownish-grey);
         }
+        .killParti {
+            color: var(--reddish);
+        }
     }
 `;
 
-const KDAGraph = ({ wins, losses, kills, deaths, assists }) => {
-    const totalGames = useMemo(() => wins + losses, [wins, losses]);
-    const winRatio = mathRound((wins / totalGames) * 100);
+const KDAGraph = ({
+    wins,
+    losses,
+    kills,
+    deaths,
+    assists,
+    games,
+    killParticipantion,
+}) => {
+    const winRatio = mathRound((wins / games) * 100);
     const kda = getKDA(kills, deaths, assists);
     return (
         <StyledKDAInfo
             className="grayBox"
-            caption={`${totalGames}전 ${wins > 0 ? wins + '승' : ''} ${
+            caption={`${games}전 ${wins > 0 ? wins + '승' : ''} ${
                 losses > 0 ? losses + '패' : ''
             }`}
             ratio={winRatio + '%'}
@@ -91,11 +100,13 @@ const KDAGraph = ({ wins, losses, kills, deaths, assists }) => {
             </div>
             <div className="statistics">
                 <div className="kdaArea">
-                    <span>{kills / totalGames}</span>
+                    <span>{mathRound(kills / games, 2)}</span>
                     <span className="slash"> / </span>
-                    <span className="deaths">{deaths / totalGames}</span>
+                    <span className="deaths">
+                        {mathRound(deaths / games, 2)}
+                    </span>
                     <span className="slash"> / </span>
-                    <span>{assists / totalGames}</span>
+                    <span>{mathRound(assists / games, 2)}</span>
                 </div>
                 <div className="evaluation">
                     <span
@@ -114,8 +125,8 @@ const KDAGraph = ({ wins, losses, kills, deaths, assists }) => {
                         :1
                     </span>
                     &nbsp;
-                    <span className={winRatio >= 60 ? 'winRatioGod' : ''}>
-                        ({winRatio}%)
+                    <span className="killParti">
+                        ({Math.round(killParticipantion / games)}%)
                     </span>
                 </div>
             </div>

@@ -34,7 +34,7 @@ const PreferPositionBox = ({ positions, totalGames }) => {
                 positions.map((position) => (
                     <PreferPosition
                         {...position}
-                        key={position.positionName}
+                        key={position.positionName + position.games}
                         totalGames={totalGames}
                     />
                 ))}

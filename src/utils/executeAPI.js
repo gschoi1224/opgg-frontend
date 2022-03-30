@@ -27,6 +27,7 @@ const executeAPI = async (fn, error, before, after) => {
         error && error(e);
     } finally {
         after && after(result);
+        return result;
     }
 };
 

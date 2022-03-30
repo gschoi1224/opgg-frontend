@@ -49,7 +49,7 @@ const MostChampionBox = ({ champions }) => {
                 {champions.map((cham) => (
                     <MostChampion {...cham} key={'most_' + cham.key} />
                 ))}
-                {blankChampions.length &&
+                {blankChampions?.length > 0 &&
                     blankChampions.map((_, i) => (
                         <li key={'blankChampion' + i} className="blankList">
                             <img

@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -63,7 +64,7 @@ const ChampionBox = ({ peak, spells, champion }) => {
                         />
                     ))}
             </div>
-            <div className="name">레오나</div>
+            <div className="name">{champion.name}</div>
         </Container>
     );
 };

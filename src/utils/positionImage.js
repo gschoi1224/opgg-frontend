@@ -13,7 +13,7 @@ const positionName = (name) => {
         case 'SUP':
             src += 'sup.png';
             break;
-        case 'BOT':
+        case 'ADC':
             src += 'adc.png';
             break;
         default:

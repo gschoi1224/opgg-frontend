@@ -94,7 +94,11 @@ const FitSummoner = ({ summoner, isFocused, setResultShow }) => {
             >
                 <StyledList>
                     {summoner && (
-                        <li>
+                        <li
+                            onClick={() => {
+                                window.location.href = `/summoners/${summoner.name}`;
+                            }}
+                        >
                             <img
                                 src={summoner.profileImageUrl}
                                 alt={summoner.name}

@@ -155,62 +155,23 @@ const Container = styled.div`
 `;
 
 const SummonerInfo = ({
-    previousTiers = [
-        {
-            name: '솔랭',
-            tier: 'Iron',
-            tierDivision: 'Iron',
-            string: 'Iron (967LP)',
-            shortString: 'I1',
-            division: 'i',
-            imageUrl:
-                'https://opgg-static.akamaized.net/images/medals/iron_1.png',
-            lp: 967,
-            tierRankPoint: 488,
-            season: 9,
-        },
-        {
-            name: '솔랭',
-            tier: 'Master',
-            tierDivision: 'Master',
-            string: 'Master (857LP)',
-            shortString: 'M1',
-            division: 'i',
-            imageUrl:
-                'https://opgg-static.akamaized.net/images/medals/master_1.png',
-            lp: 857,
-            tierRankPoint: 210,
-            season: 8,
-        },
-        {
-            name: '솔랭',
-            tier: 'Master',
-            tierDivision: 'Master',
-            string: 'Master (484LP)',
-            shortString: 'M1',
-            division: 'i',
-            imageUrl:
-                'https://opgg-static.akamaized.net/images/medals/master_1.png',
-            lp: 484,
-            tierRankPoint: 414,
-            season: 7,
-        },
-    ],
-    profileBorderImageUrl = 'https://opgg-static.akamaized.net/images/borders2/challenger.png',
-    profileImageUrl = 'https://opgg-static.akamaized.net/images/profile_icons/profileIcon1625.jpg',
-    level = 305,
-    ladderRank = { rank: 415780, rankPercentOfTop: 32 },
-    name = 'SKT T1 Faker',
+    profileBorderImageUrl,
+    level,
+    previousTiers,
+    profileImageUrl,
+    name,
+    ladderRank,
 }) => {
     return (
         <Container profileBorderImageUrl={profileBorderImageUrl} level={level}>
             <div className="summonerInfo">
                 <ul className="previousTiers">
-                    {previousTiers.map(({ tier, season }) => (
-                        <li key={`S${season}`}>
-                            <b>S{season}</b>&nbsp;<span>{tier}</span>
-                        </li>
-                    ))}
+                    {previousTiers?.length > 0 &&
+                        previousTiers.map(({ tier, season }) => (
+                            <li key={`S${season}`}>
+                                <b>S{season}</b>&nbsp;<span>{tier}</span>
+                            </li>
+                        ))}
                 </ul>
                 <div className="profileContainer">
                     <div className="profile">
@@ -228,17 +189,19 @@ const SummonerInfo = ({
                     <div className="profileInfo">
                         <span className="profileSummonerId">{name}</span>
                         <div className="profileSummonerRankingBox">
-                            <div className="profileSummonerRankingInfo">
-                                레더 랭킹&nbsp;
-                                <span className="profileSummonerRanking">
-                                    {ladderRank.rank.toLocaleString()}
-                                </span>
-                                위 (상위&nbsp;
-                                <span className="profileSummonerRankingPercent">
-                                    {ladderRank.rankPercentOfTop}%
-                                </span>
-                                )
-                            </div>
+                            {ladderRank && (
+                                <div className="profileSummonerRankingInfo">
+                                    레더 랭킹&nbsp;
+                                    <span className="profileSummonerRanking">
+                                        {ladderRank.rank.toLocaleString()}
+                                    </span>
+                                    위 (상위&nbsp;
+                                    <span className="profileSummonerRankingPercent">
+                                        {ladderRank.rankPercentOfTop}%
+                                    </span>
+                                    )
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

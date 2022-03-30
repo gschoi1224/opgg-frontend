@@ -49,109 +49,9 @@ const GameResultBox = ({
     summonerId,
     summonerName,
     tierRankShort,
+    detail,
     createDate,
-    teams = [
-        {
-            teamId: 1,
-            players: [
-                {
-                    champion: {
-                        imageUrl:
-                            'https://opgg-static.akamaized.net/images/lol/champion/Jayce.png',
-                        level: 12,
-                    },
-                    summonerId: '2254552',
-                    summonerName: 'Hide on bush',
-                },
-                {
-                    champion: {
-                        imageUrl:
-                            'https://opgg-static.akamaized.net/images/lol/champion/Jayce.png',
-                        level: 12,
-                    },
-                    summonerId: '3755694',
-                    summonerName: 'K T',
-                },
-                {
-                    champion: {
-                        imageUrl:
-                            'https://opgg-static.akamaized.net/images/lol/champion/Tristana.png',
-                        level: 7,
-                    },
-                    summonerId: '2199254',
-                    summonerName: 'DWG Canyon',
-                },
-                {
-                    champion: {
-                        imageUrl:
-                            'https://opgg-static.akamaized.net/images/lol/champion/Malzahar.png',
-                        level: 6,
-                    },
-                    summonerId: '1308685',
-                    summonerName: 'UijU',
-                },
-                {
-                    champion: {
-                        imageUrl:
-                            'https://opgg-static.akamaized.net/images/lol/champion/Lucian.png',
-                        level: 9,
-                    },
-                    summonerId: '2773808',
-                    summonerName: 'lIIIllIlIIlIlIll',
-                },
-            ],
-        },
-        {
-            teamId: 2,
-            players: [
-                {
-                    champion: {
-                        imageUrl:
-                            'https://opgg-static.akamaized.net/images/lol/champion/Anivia.png',
-                        level: 31,
-                    },
-                    summonerId: '2037182',
-                    summonerName: 'JUGKlNG',
-                },
-                {
-                    champion: {
-                        imageUrl:
-                            'https://opgg-static.akamaized.net/images/lol/champion/Anivia.png',
-                        level: 31,
-                    },
-                    summonerId: '2012713',
-                    summonerName: 'Mango Fish',
-                },
-                {
-                    champion: {
-                        imageUrl:
-                            'https://opgg-static.akamaized.net/images/lol/champion/Galio.png',
-                        level: 20,
-                    },
-                    summonerId: '2010529',
-                    summonerName: '저승용호야',
-                },
-                {
-                    champion: {
-                        imageUrl:
-                            'https://opgg-static.akamaized.net/images/lol/champion/Anivia.png',
-                        level: 31,
-                    },
-                    summonerId: '2600943',
-                    summonerName: 'qwetyz',
-                },
-                {
-                    champion: {
-                        imageUrl:
-                            'https://opgg-static.akamaized.net/images/lol/champion/Malzahar.png',
-                        level: 6,
-                    },
-                    summonerId: '2745783',
-                    summonerName: 'KT Malrang',
-                },
-            ],
-        },
-    ],
+    teams,
 }) => {
     return (
         <Container
@@ -186,7 +86,7 @@ const GameResultBox = ({
                 isWin={isWin}
                 visionWardsBought={stats.ward.visionWardsBought}
             />
-            <ParticipantsBox teams={teams} />
+            <ParticipantsBox teams={detail.teams} />
             <div className="action">
                 <button className="detail">
                     <img

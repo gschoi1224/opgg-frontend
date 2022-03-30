@@ -1,6 +1,9 @@
-import { useMemo } from 'react';
+import { useEffect } from 'react';
+import { useCallback } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import useNavBox from '../hooks/useNavBox';
+import { getMatchDetail } from '../lib/api';
 import NoData from './common/NoData';
 import GameResultList from './GameResult/GameResultList';
 import KDAGraph from './Position/KDAGraph';
@@ -15,415 +18,193 @@ const Container = styled.div`
 
 const rankTypes = ['전체', '솔로게임', '자유랭크'];
 
-const GameHistory = ({
-    champions = [
-        {
-            id: 236,
-            key: 'Lucian',
-            name: '루시안',
-            imageUrl:
-                'https://opgg-static.akamaized.net/images/lol/champion/Lucian.png?image=w_30&v=1',
-            games: 12,
-            kills: 8,
-            deaths: 10,
-            assists: 16,
-            wins: 9,
-            losses: 3,
-        },
-        {
-            id: 246,
-            key: 'Qiyana',
-            name: '키아나',
-            imageUrl:
-                'https://opgg-static.akamaized.net/images/lol/champion/Qiyana.png?image=w_30&v=1',
-            games: 8,
-            kills: 19,
-            deaths: 14,
-            assists: 18,
-            wins: 7,
-            losses: 1,
-        },
-    ],
-    positions = [
-        {
-            games: 13,
-            wins: 6,
-            losses: 7,
-            position: 'SUP',
-            positionName: 'Support',
-        },
-        {
-            games: 7,
-            wins: 4,
-            losses: 3,
-            position: 'TOP',
-            positionName: 'Top',
-        },
-    ],
-    summary = {
-        wins: 6,
-        losses: 14,
-        kills: 36,
-        deaths: 48,
-        assists: 27,
-    },
-    games = [
-        {
-            mmr: null,
-            champion: {
-                imageUrl:
-                    'https://opgg-static.akamaized.net/images/lol/champion/Galio.png',
-                level: 20,
-            },
-            spells: [
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/spell/SummonerTeleport.png',
-                },
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/spell/SummonerFlash.png',
-                },
-            ],
-            items: [
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/item/3020.png',
-                },
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/item/3364.png',
-                },
-            ],
-            needRenew: false,
-            gameId: '229197447',
-            createDate: 1648561828,
-            gameLength: 222,
-            gameType: '일반',
-            summonerId: '43458064',
-            summonerName: 'Hide on bush',
-            tierRankShort: 'C1',
-            stats: {
-                general: {
-                    kill: 0,
-                    death: 0,
-                    assist: 0,
-                    kdaString: '0.00:1',
-                    cs: 142,
-                    csPerMin: 7.5,
-                    contributionForKillRate: '5%',
-                    goldEarned: 4345,
-                    totalDamageDealtToChampions: 3241,
-                    largestMultiKillString: 'Double Kill',
-                    opScoreBadge: '',
-                },
-                ward: {
-                    sightWardsBought: 0,
-                    visionWardsBought: 2,
-                },
-            },
-            mapInfo: null,
-            peak: [
-                'https://opgg-static.akamaized.net/images/lol/perk/8229.png',
-                'https://opgg-static.akamaized.net/images/lol/perkStyle/8300.png',
-            ],
-            isWin: false,
-        },
-        {
-            mmr: 3005,
-            champion: {
-                imageUrl:
-                    'https://opgg-static.akamaized.net/images/lol/champion/Anivia.png',
-                level: 31,
-            },
-            spells: [
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/spell/SummonerTeleport.png',
-                },
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/spell/SummonerFlash.png',
-                },
-            ],
-            items: [
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/item/1026.png',
-                },
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/item/3364.png',
-                },
-            ],
-            needRenew: false,
-            gameId: '240402357',
-            createDate: 1648558531,
-            gameLength: 2367,
-            gameType: '일반',
-            summonerId: '43458064',
-            summonerName: 'Hide on bush',
-            tierRankShort: 'C1',
-            stats: {
-                general: {
-                    kill: 7,
-                    death: 3,
-                    assist: 4,
-                    kdaString: '3.67:1',
-                    cs: 139,
-                    csPerMin: 7.5,
-                    contributionForKillRate: '23%',
-                    goldEarned: 473,
-                    totalDamageDealtToChampions: 4823,
-                    largestMultiKillString: 'Double Kill',
-                    opScoreBadge: '',
-                },
-                ward: {
-                    sightWardsBought: 0,
-                    visionWardsBought: 2,
-                },
-            },
-            mapInfo: null,
-            peak: [
-                'https://opgg-static.akamaized.net/images/lol/perk/8229.png',
-                'https://opgg-static.akamaized.net/images/lol/perkStyle/8300.png',
-            ],
-            isWin: false,
-        },
-        {
-            mmr: 552,
-            champion: {
-                imageUrl:
-                    'https://opgg-static.akamaized.net/images/lol/champion/Galio.png',
-                level: 20,
-            },
-            spells: [
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/spell/SummonerTeleport.png',
-                },
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/spell/SummonerFlash.png',
-                },
-            ],
-            items: [
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/item/3198.png',
-                },
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/item/2031.png',
-                },
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/item/1026.png',
-                },
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/item/3198.png',
-                },
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/item/3364.png',
-                },
-            ],
-            needRenew: false,
-            gameId: '105767169',
-            createDate: 1648555935,
-            gameLength: 1411,
-            gameType: '자유 5:5 랭크',
-            summonerId: '43458064',
-            summonerName: 'Hide on bush',
-            tierRankShort: 'C1',
-            stats: {
-                general: {
-                    kill: 3,
-                    death: 6,
-                    assist: 4,
-                    kdaString: '1.17:1',
-                    cs: 104,
-                    csPerMin: 7.5,
-                    contributionForKillRate: '60%',
-                    goldEarned: 43,
-                    totalDamageDealtToChampions: 2047,
-                    largestMultiKillString: '',
-                    opScoreBadge: '',
-                },
-                ward: {
-                    sightWardsBought: 0,
-                    visionWardsBought: 2,
-                },
-            },
-            mapInfo: null,
-            peak: [
-                'https://opgg-static.akamaized.net/images/lol/perk/8229.png',
-                'https://opgg-static.akamaized.net/images/lol/perkStyle/8300.png',
-            ],
-            isWin: false,
-        },
-        {
-            mmr: 927,
-            champion: {
-                imageUrl:
-                    'https://opgg-static.akamaized.net/images/lol/champion/Jayce.png',
-                level: 12,
-            },
-            spells: [
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/spell/SummonerTeleport.png',
-                },
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/spell/SummonerFlash.png',
-                },
-            ],
-            items: [
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/item/1026.png',
-                },
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/item/3340.png',
-                },
-            ],
-            needRenew: false,
-            gameId: '131089761',
-            createDate: 1648552903,
-            gameLength: 3525,
-            gameType: '일반',
-            summonerId: '43458064',
-            summonerName: 'Hide on bush',
-            tierRankShort: 'C1',
-            stats: {
-                general: {
-                    kill: 10,
-                    death: 8,
-                    assist: 4,
-                    kdaString: '1.75:1',
-                    cs: 174,
-                    csPerMin: 7.5,
-                    contributionForKillRate: '1%',
-                    goldEarned: 3464,
-                    totalDamageDealtToChampions: 2865,
-                    largestMultiKillString: 'Double Kill',
-                    opScoreBadge: '',
-                },
-                ward: {
-                    sightWardsBought: 0,
-                    visionWardsBought: 2,
-                },
-            },
-            mapInfo: null,
-            peak: [
-                'https://opgg-static.akamaized.net/images/lol/perk/8229.png',
-                'https://opgg-static.akamaized.net/images/lol/perkStyle/8300.png',
-            ],
-            isWin: true,
-        },
-        {
-            mmr: 2756,
-            champion: {
-                imageUrl:
-                    'https://opgg-static.akamaized.net/images/lol/champion/Viktor.png',
-                level: 11,
-            },
-            spells: [
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/spell/SummonerTeleport.png',
-                },
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/spell/SummonerFlash.png',
-                },
-            ],
-            items: [
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/item/3113.png',
-                },
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/item/1056.png',
-                },
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/item/3113.png',
-                },
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/item/1056.png',
-                },
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/item/3020.png',
-                },
-                {
-                    imageUrl:
-                        'https://opgg-static.akamaized.net/images/lol/item/3364.png',
-                },
-            ],
-            needRenew: false,
-            gameId: '35951770',
-            createDate: 1648551043,
-            gameLength: 1462,
-            gameType: '솔랭',
-            summonerId: '43458064',
-            summonerName: 'Hide on bush',
-            tierRankShort: 'C1',
-            stats: {
-                general: {
-                    kill: 3,
-                    death: 4,
-                    assist: 1,
-                    kdaString: '1.00:1',
-                    cs: 152,
-                    csPerMin: 7.5,
-                    contributionForKillRate: '33%',
-                    goldEarned: 3575,
-                    totalDamageDealtToChampions: 3299,
-                    largestMultiKillString: 'Double Kill',
-                    opScoreBadge: 'ACE',
-                },
-                ward: {
-                    sightWardsBought: 0,
-                    visionWardsBought: 2,
-                },
-            },
-            mapInfo: null,
-            peak: [
-                'https://opgg-static.akamaized.net/images/lol/perk/8229.png',
-                'https://opgg-static.akamaized.net/images/lol/perkStyle/8300.png',
-            ],
-            isWin: true,
-        },
-    ],
-}) => {
+const GameHistory = ({ champions, positions, summary, games }) => {
+    useEffect(() => {
+        positions.sort((a, b) => b.games - a.games);
+    }, [positions]);
+
+    const [detailLoading, setDetailLoading] = useState(false);
+
+    useEffect(() => {
+        executeMatchDetailAPI();
+        // eslint-disable-next-line
+    }, []);
+
+    const executeMatchDetailAPI = useCallback(async () => {
+        setDetailLoading(true);
+        const promises = games.map(async (game) => {
+            const res = await getMatchDetail(game.summonerName, game.gameId);
+            return res.data;
+        });
+        const detail = await Promise.all(promises);
+        setDetails(detail);
+        setViewDetails(detail);
+        setDetailLoading(false);
+    }, [games]);
+    const [viewChampions, setViewChampions] = useState(champions);
+    const [viewPositions, setViewPositions] = useState(positions);
+    const [viewSummary, setViewSummary] = useState(summary);
+    const [viewGames, setViewGames] = useState(games);
+    const [details, setDetails] = useState(null);
+    const [viewDetails, setViewDetails] = useState(details);
     const { type, NavBox } = useNavBox(0);
-    const totalGames = useMemo(
-        () => (!summary ? 0 : summary?.wins + summary?.losses),
-        [summary],
-    );
+    useEffect(() => {
+        if (details?.length > 0) {
+            const index = [];
+            const newGames = [];
+            const newDetails = [];
+            const newSummary = {
+                games: 0,
+                wins: 0,
+                losses: 0,
+                kills: 0,
+                deaths: 0,
+                assists: 0,
+                killParticipantion: 0,
+            };
+            const newChampions = {};
+            const newPositions = Array.from(
+                { length: 5, 0: 'TOP', 1: 'MID', 2: 'JNG', 3: 'ADC', 4: 'SUP' },
+                (position) => ({
+                    position,
+                    games: 0,
+                    wins: 0,
+                    losses: 0,
+                }),
+            );
+            switch (type) {
+                case 0:
+                    for (let i = 0; i < games.length; i++) {
+                        index.push(i);
+                    }
+                    break;
+                case 1:
+                    for (let i = 0; i < games.length; i++) {
+                        if (games[i].gameType === '솔랭') {
+                            index.push(i);
+                        }
+                    }
+                    break;
+                case 2:
+                    for (let i = 0; i < games.length; i++) {
+                        if (games[i].gameType === '자유 5:5 랭크') {
+                            index.push(i);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+            index.forEach((i) => {
+                const game = games[i];
+                if (newChampions[game.champion.key]) {
+                    newChampions[game.champion.key].games++;
+                    if (game.isWin) {
+                        newChampions[game.champion.key].wins++;
+                    } else {
+                        newChampions[game.champion.key].losses++;
+                    }
+                    newChampions[game.champion.key].kills +=
+                        game.stats.general.kill;
+                    newChampions[game.champion.key].deaths +=
+                        game.stats.general.death;
+                    newChampions[game.champion.key].assists +=
+                        game.stats.general.assist;
+                } else {
+                    const obj = {
+                        games: 1,
+                        wins: 0,
+                        losses: 0,
+                        kills: game.stats.general.kill,
+                        assists: game.stats.general.assist,
+                        deaths: game.stats.general.death,
+                        imageUrl: game.champion.imageUrl,
+                        name: game.champion.name,
+                        key: game.champion.key,
+                    };
+                    if (game.isWin) {
+                        obj.wins++;
+                    } else {
+                        obj.losses++;
+                    }
+                    newChampions[game.champion.key] = obj;
+                }
+                newSummary.games++;
+                if (game.isWin) {
+                    newSummary.wins++;
+                } else {
+                    newSummary.losses++;
+                }
+                newSummary.kills += game.stats.general.kill;
+                newSummary.deaths += game.stats.general.death;
+                newSummary.assists += game.stats.general.assist;
+                newSummary.killParticipantion += Number(
+                    game.stats.general.contributionForKillRate.split('%')[0],
+                );
+                const detail = details[i];
+                let positionIndex = -1;
+                for (let j = 0; j < detail.teams.length; j++) {
+                    const team = detail.teams[j].players;
+                    for (let k = 0; k < team.length; k++) {
+                        if (team[k].summonerName === game.summonerName) {
+                            positionIndex = k;
+                        }
+                    }
+                    if (positionIndex !== -1) {
+                        break;
+                    }
+                }
+                newPositions[positionIndex].games++;
+                if (game.isWin) {
+                    newPositions[positionIndex].wins++;
+                } else {
+                    newPositions[positionIndex].losses++;
+                }
+
+                newGames.push(game);
+                newDetails.push(detail);
+            });
+            const arrCham = [];
+            for (const cham of Object.values(newChampions)) {
+                arrCham.push(cham);
+            }
+            arrCham.sort((a, b) => {
+                if (a.games !== b.games) {
+                    return b.games - a.games;
+                }
+                return b.wins - a.wins;
+            });
+            newPositions.sort((a, b) => b.games - a.games);
+
+            setViewChampions(arrCham.slice(0, 3));
+            setViewGames(newGames);
+            setViewDetails(newDetails);
+            setViewSummary(newSummary);
+            setViewPositions(
+                newPositions.filter((p, i) => i < 2 && p.games > 0),
+            );
+        }
+    }, [type, positions, champions, summary, games, details]);
     return (
         <Container>
             <NavBox navigationTypes={rankTypes} />
-            {totalGames ? (
+            {viewSummary?.games > 0 ? (
                 <>
-                    {summary && <KDAGraph {...summary} />}
-                    <MostChampionBox champions={champions} />
+                    {viewSummary && <KDAGraph {...viewSummary} />}
+                    <MostChampionBox champions={viewChampions} />
                     <PreferPositionBox
-                        positions={positions}
-                        totalGames={totalGames}
+                        positions={viewPositions}
+                        totalGames={viewSummary.games}
                     />
                 </>
             ) : (
                 <NoData height={300} className="whiteBox" />
             )}
-            {games?.length > 0 && <GameResultList games={games} />}
+            {viewGames?.length > 0 &&
+                viewDetails?.length > 0 &&
+                !detailLoading && (
+                    <GameResultList games={viewGames} details={viewDetails} />
+                )}
         </Container>
     );
 };
