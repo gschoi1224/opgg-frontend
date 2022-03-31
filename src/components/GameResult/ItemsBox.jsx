@@ -109,7 +109,10 @@ const ItemsBox = ({ items, isWin, visionWardsBought }) => {
                         .split('/')
                         .slice(-1)[0]
                         .split('.')[0];
-                    const info = itemInfo.data[id];
+                    const info = itemInfo?.data[id] || {
+                        name: '',
+                        description: '',
+                    };
                     return (
                         <li className="item" key={'item' + i}>
                             <img src={item.imageUrl} alt={id} />
